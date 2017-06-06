@@ -5,8 +5,12 @@ class Inventory extends React.Component {
 	constructor(){
 		super();
 		this.renderInventory = this.renderInventory.bind(this);
+		this.renderLogin = this.renderLogin.bind(this);
 		this.handleChange = this.handleChange.bind(this);
-
+		this.state = {
+			uid: null,
+			owner: null
+		}
 	}	
 	handleChange(e, key){
 		const fish = this.props.fishes[key];
@@ -16,6 +20,24 @@ class Inventory extends React.Component {
 			[e.target.name]: [e.target.value]
 		}
 		this.props.updateFish(key, updatedFish);
+	}
+
+	renderLogin(){
+		return (
+			<nav className="login">
+				<h2>Inventory</h2>
+				<p>Sign in to manage your store inventory</p>
+				<button className="github" onClick={() => this.authenticate('github')}>
+					Log In with Github
+				</button>
+				<button className="facebook" onClick={() => this.authenticate('facebook')}>
+					Log In with Facebook
+				</button>
+				<button className="twitter" onClick={() => this.authenticate('twitter')}>
+					Log In with Twitter
+				</button>
+			</ nav>
+		)
 	}
 
 	renderInventory(key){
@@ -36,6 +58,10 @@ class Inventory extends React.Component {
 		)
 	}
 	render() {
+		if(!this.state.uid){
+			return <div>{this.renderLogin()}</div>
+		}
+
 		return(
 		    <div>
 		    	<p>Inventory</p>
